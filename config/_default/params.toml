@@ -1,4 +1,4 @@
-colorScheme = "marvel"
+colorScheme = "congo"
 defaultAppearance = "light"
 autoSwitchAppearance = true
 enableSearch = true
@@ -18,7 +18,7 @@ showScrollToTop = true
 layout = "background"
 homepageImage = "img/cover.png"
 showRecent = true
-showRecentItems = 3
+showRecentItems = "5"
 showMoreLink = true
 showMoreLinkDest = "/blowfish_artist/posts"
 cardView = true
@@ -70,3 +70,6 @@ showTermCount = true
 [fathomAnalytics]
 
 [verification]
+
+[term]
+cardViewScreenWidth = true

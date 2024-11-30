@@ -20,7 +20,7 @@ homepageImage = "img/cover.png"
 showRecent = true
 showRecentItems = "5"
 showMoreLink = true
-showMoreLinkDest = "/blowfish_artist/posts"
+showMoreLinkDest = "posts"
 cardView = true
 cardViewScreenWidth = false
 layoutBackgroundBlur = true
@@ -64,6 +64,8 @@ excludedKinds = []
 
 [taxonomy]
 showTermCount = true
+showHero = true
+heroStyle = "background"
 
 [firebase]
 
@@ -73,3 +75,4 @@ showTermCount = true
 
 [term]
 cardViewScreenWidth = true
+heroStyle = "background"

@@ -1,23 +1,32 @@
 ---
-title: "Super cool article that I wrote"
+title: "A template article"
 summary: "A brief summary of the article"
-categories: ["Post","Blog",]
-tags: ["post"]
-#externalUrl: ""
+categories: ["Post",]
+tags: ["template",]
 #showSummary: true
 date: 2022-09-04
 draft: true
+seriesOpened: false
+# series: ["Docs"]
+# series_order: 1
+showPagination: false # show previous/next article at bottom
+invertPagination: false
+showTaxonomies: true
 ---
 
 ## Lorem ipsum dolor sit amet
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean in eleifend justo, vestibulum congue lacus. Quisque est libero, lacinia sed placerat ac, interdum id urna. Nulla venenatis volutpat libero, in laoreet leo fringilla eget. Etiam consequat sed nisi sit amet interdum. Pellentesque ullamcorper at turpis in ultrices. Pellentesque et elit mauris. Aenean eu augue sit amet nunc interdum ultricies. Aenean eleifend consectetur sapien vitae consectetur. Donec risus mauris, finibus at condimentum at, lacinia sit amet neque. Nulla facilisi. Suspendisse sollicitudin dolor quis eros tempor, a tempus ex varius.
 
-
+## the image
 this is image
 
-<img src="cover.png" width="300">
-<figcaption>figure caption</figcaption>
+{{< figure
+    src="cover.png"
+    alt="Abstract purple artwork"
+    caption="Photo by [Jr Korpa](https://unsplash.com/@jrkorpa) on [Unsplash](https://unsplash.com/)"
+    >}}
 
+## the code 
 
 this is a code 
 ```Python
@@ -25,6 +34,32 @@ import numpy as np
 print(np.zeros(5))
 ```
 
+this is a in line math equation
+{{< katex >}}
+\\(f(a,b,c) = (a^2+b^2+c^2)^3\\)
+and you can write other things after the equation
+
+this is a blocked math equation
+{{< katex >}}
+$$
+ \varphi = 1+\frac{1} {1+\frac{1} {1+\frac{1} {1+\cdots} } }
+$$
+
+## the alert
+here are some alert
+{{< alert icon="fire" cardColor="#e63946" iconColor="#1d3557" extColor="#f1faee">}}
+This is an error!
+{{< /alert >}}
+
+here is the shortcode for [icon](https://blowfish.page/samples/icons/)
+
+## the flowchart
+{{< mermaid >}}
+graph LR;
+A[Lemons]-->B[Lemonade];
+B-->C[Profit]
+{{< /mermaid >}}
+the flowchart [syntax](http://mermaid.js.org/syntax/flowchart.html)
 
 ## Nunc non leo non magna
 Nunc non leo non magna ornare condimentum. Phasellus consequat nunc ut tellus porttitor bibendum. In pharetra ullamcorper metus quis mollis. Mauris bibendum, est in commodo hendrerit, dolor purus hendrerit dolor, at pharetra sapien erat sit amet ante. Etiam aliquet euismod libero, vel tincidunt felis mollis at. Sed scelerisque, tortor in convallis auctor, elit quam consectetur lacus, quis posuere risus libero non sem. Mauris sagittis nisi id aliquam lacinia. Vivamus finibus velit sed condimentum aliquet. Nullam in ante a erat lacinia semper. Curabitur pretium justo at leo maximus, quis dignissim nulla posuere. Donec eget consectetur neque, et mattis dui. Vivamus at mi enim. Nullam et nisi est. Nullam eget eros blandit, convallis odio eget, ornare enim.

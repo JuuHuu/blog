@@ -12,6 +12,8 @@ seriesOpened: false
 showPagination: false # show previous/next article at bottom
 invertPagination: false
 showTaxonomies: true
+showHero: true
+heroStyle: background #basic, big, background, thumbAndBackground
 ---
 
 ## Lorem ipsum dolor sit amet

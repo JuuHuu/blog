@@ -1,6 +1,6 @@
 ---
 title: "Split powershell tab"
-summary: "How to split the powershell and close the pan"
+summary: "How to split the powershell and close the panel"
 categories: ["Post",]
 tags: ["powershell",]
 #showSummary: true
@@ -14,14 +14,14 @@ invertPagination: false
 showTaxonomies: true
 ---
 
-WIndows termial seems have a big update. We could split the Windows terminal tab instead of open multiply tabs. This feature comined with wsl would have a lot of beneifts.
+Windows terminal seems have a big update. We could split the Windows terminal tab instead of open multiply tabs. This feature combined with wsl would have a lot of benefits.
 
 ## Split the tab
 
 - RIght click the tag
 - Choose "Split tab"
 
-Then the tag is splited
+Then the tag is split
 
 ![](1.png)
 
@@ -29,7 +29,7 @@ It will create a panel on the left
 
 ![](2.png)
 
-Chooseing the panel then continue to split could generate a up down layout panel
+Choosing the panel then continue to split could generate a up down layout panel
 
 ![](3.png)
 

@@ -49,7 +49,7 @@ $$
 
 ## the alert
 here are some alert
-{{< alert icon="fire" cardColor="#e63946" iconColor="#1d3557" extColor="#f1faee">}}
+{{< alert icon="circle-info" cardColor="#e63946" iconColor="#1d3557" extColor="#f1faee">}}
 This is an error!
 {{< /alert >}}
 

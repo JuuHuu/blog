@@ -17,7 +17,7 @@ heroStyle: basic #basic, big, background, thumbAndBackground
 
 ---
 
-WIndows terminal seems have a big update. We could split the Windows terminal tab instead of open multiply tabs. This feature combined with wsl would have a lot of benefits.
+Windows terminal seems have a big update. We could split the Windows terminal tab instead of open multiply tabs. This feature combined with wsl would have a lot of benefits.
 
 ## Split the tab
 

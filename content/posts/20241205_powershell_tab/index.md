@@ -1,6 +1,6 @@
 ---
 title: "Split powershell tab"
-summary: "How to split the powershell and close the pan"
+summary: "How to split the powershell and close the panel"
 categories: ["Post",]
 tags: ["powershell",]
 #showSummary: true
@@ -49,8 +49,8 @@ Activating the panel then press : `Ctrl + Shift + W`
 
 ## Tips
 
-- Command manual: Pressing `Ctrl + Shift + p` could open command manula, ther are many command and coressponding shortkeys
-- It seems that the panel could not resize. So we must adjust the window size before spilit
+- Command manual: Pressing `Ctrl + Shift + p` could open command manual, there are many command and corresponding shortkeys
+- It seems that the panel could not resize. So we must adjust the window size before spilt
 
 ## Reference
 

@@ -34,6 +34,7 @@ The software used are listed below:
 | Gazebo       | Harmonic                      |
 | Rviz         | 14.1.5-1noble.20241115.194822 |
 
+Source code could be found [here](https://github.com/JuuHuu/ROS_DiffCar_example)
 ## Modeling
 
 ### Section overview

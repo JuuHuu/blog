@@ -17,7 +17,9 @@ heroStyle: basic #basic, big, background, thumbAndBackground
 ---
 
 ## Introduction
+
 ### Serial intro
+
 Differential car is a common structure in robot base. There are extended tutorial ranging from modeling to simulation using ROS2 and related tools. However, these tutorial mainly using Gazebo classic, an obsolete version of simulator. Though Gazebo has been updated to Ionic and introduced many new features, seldom tutorial introduce complete workflow from building a differential car model, adding control plugins, loading model to Gazebo, visualize model in Rviz and control the model by publishing commands OR using game pad.
 
 This serial introducing a complete workflow, introducing how to simulate a differential car model in Gazebo Harmonic. No hardware is requested in this tutorial, but you can add hardware easily later. The serial's syllabus is shown below.
@@ -37,7 +39,9 @@ The software used are listed below:
 Source code could be found [here](https://github.com/JuuHuu/ROS_DiffCar_example)
 
 ### About this tutorial
+
 In this tutorial, we will build a differential car model and using `diff drive system` plugin to control the car.
+
 ## Modeling
 
 ### Section overview
@@ -82,8 +86,7 @@ Open VS code in your ROS2 workspace:
 code .
 ```
 
-Creating a `sdf`, and `launch` folder under `robot_description` folder, you will get following file structure in vscode:  
-
+Creating a `sdf`, and `launch` folder under `robot_description` folder, you will get following file structure in vscode:
 
 ![](Modeling_sdf_folder.png)
 
@@ -97,22 +100,20 @@ the `sdf` folder will be used to store robot description file and the `launch` f
 
 ![](Modeling_URDF_Creator_web.png)
 
-  
-Close the welcome page, the web app automatically create a `base_footprint` for us:  
-
+Close the welcome page, the web app automatically create a `base_footprint` for us:
 
 ![](Modeling_URDF_base_footprint.png)
 
-  
 Get familiar with the webpage and we will start create the robot.
 
 #### Rename the robot
-Rename the robot on the right top.  
 
+Rename the robot on the right top.
 
 ![](Modeling_change_name.png)
 
 #### Add base link
+
 Add a cylinder as base link, drag and put it under `base_footprint` in Link Tree panel. We change the following parameters and keep other default. Attention that we have to change both `visual` and `collision` cylinder's radius and height, the screenshot below does not show collisions' size.
 
 | Feature     | Value |
@@ -122,7 +123,7 @@ Add a cylinder as base link, drag and put it under `base_footprint` in Link Tree
 | Position, z | 0.1   |
 | Mass        | 200   |
 
-![base link](Modeling_baselink2.png)
+![](Modeling_baselink2.png)
 
 There will be a cylinder base lik in the screen, check URDF and SDF on the right panel, there has been some automatically generated code.
 
@@ -131,7 +132,9 @@ There will be a cylinder base lik in the screen, check URDF and SDF on the right
 To save the file we have currently create, click the up right three bar -> Export -> Save Project, and Export a GLTF file. It will create a GLTF file that save our project and reopen to continue the job.
 
 #### Add imu sensor
+
 Add a cube link as imu, drag and put it under `base_link`, changing following parameters:
+
 | Feature     | Value |
 | ----------- | ----- |
 | Name        | imu   |
@@ -145,10 +148,12 @@ Add a cube link as imu, drag and put it under `base_link`, changing following pa
 
 We hide the `imu` link inside the `base_link`, so we cannot see it directly. But check out the URDF or SDF code, we could find the imu link. Also, we set the sensor type as IMU, and till i write this blog, there are some bugs in the web: after choosing sensor type as IMU, it will not show immediately, unless you switch to other tags then switch back to Parameters tag.
 
-![imu](Modeling_IMU.png)
+![](Modeling_IMU.png)
 
 #### Add camera sensor
+
 Add a cube link as `camera`, drag and put it under `base_link`, changing following parameters:
+
 | Feature     | Value  |
 | ----------- | ------ |
 | Name        | camera |
@@ -160,10 +165,12 @@ Add a cube link as `camera`, drag and put it under `base_link`, changing followi
 | Scale, z    | 0.02   |
 | Sensor Type | Camera |
 
-![camera](Modeling_camera.png)
+![](Modeling_camera.png)
 
 #### Add lidar support
+
 Though we can directly make lidar floating, we still add a lidar support to make the robot more reasonable. Add a cylinder link as `lidar_support`, drag and put it under `base_link`, changing following parameters:
+
 | Feature       | Value         |
 | ------------- | ------------- |
 | Name          | lidar_support |
@@ -173,10 +180,12 @@ Though we can directly make lidar floating, we still add a lidar support to make
 | Scale, Radius | 0.01          |
 | Scale, Height | 0.1           |
 
-![lidar_support](Modeling_lidar_support.png)
+![](Modeling_lidar_support.png)
 
 #### Add lidar sensor
+
 Add a cylinder link as `lidar`, drag and put it under `base_link`, changing following parameters:
+
 | Feature       | Value |
 | ------------- | ----- |
 | Name          | lidar |
@@ -187,14 +196,20 @@ Add a cylinder link as `lidar`, drag and put it under `base_link`, changing foll
 | Scale, Height | 0.01  |
 | Sensor Type   | Lidar |
 
-![lidar](Modeling_lidar.png)
+![](Modeling_lidar.png)
 
 #### Add left wheel
-Add a cylinder link as `left_wheel`, drag and put it under `base_link`. Since the default cylinder is oriented vertically upwards, we need to rotate it to a horizontal orientation. The different rotation direction will cause the original z-axis to face left or right:
-![Modeling rotate](Modeling_rotate.jpg)
+
+Add a cylinder link as `left_wheel`, drag and put it under `base_link`. Since the default cylinder is oriented vertically upwards, we need to rotate it to a horizontal orientation. The different rotation direction will cause the original z-axis to face left or right:  
+
+
+![](Modeling_rotate.jpg)
+
+  
 The left and right cylinder in the picture has different forward direction. When both cylinder(wheel) rotate along z-axis in counter clockwise, the left cylinder will going into the screen, and the right cylinder will going out the screen. That is when we send forward command to the car it may going backwards. To avoid this, make sure after rotation, the original z-axis is the same direction as y-axis. Usually, in 3D software, three axis have different color: Red - X, Green - Y, Blue - z. So make sure the original z-axis of wheel have the same direction as green axis shown in the app.
 
 If you don't understand above, just changing following parameters:
+
 | Feature       | Value      |
 | ------------- | ---------- |
 | Name          | left_wheel |
@@ -205,10 +220,12 @@ If you don't understand above, just changing following parameters:
 | Scale, Height | 0.05       |
 | Joint Type    | Continuous |
 
-![left_wheel](Model_leftwheel.png)
+![](Model_leftwheel.png)
 
 #### Add right wheel
+
 Add a cylinder link as `right_wheel`, drag and put it under `base_link`.You may find that the left and right wheel have the same parameters except the position y and the name, so we can duplicated lef wheel in Link Tree on the left panel and change these two parameters. Or you can changing following parameters if you build a new right wheel:
+
 | Feature         | Value           |
 | --------------- | --------------- |
 | **Name**        | **right_wheel** |
@@ -219,10 +236,12 @@ Add a cylinder link as `right_wheel`, drag and put it under `base_link`.You may 
 | Scale, Height   | 0.05            |
 | Joint Type      | Continuous      |
 
-![alt text](Modeling_rightwheel.png)
+![](Modeling_rightwheel.png)
 
 #### Add front chaster
+
 we need two chaster to make the car balance. Add a sphere ling as `front_chaster`, drag and put it under `base_link`.changing following parameters:
+
 | Feature       | Value         |
 | ------------- | ------------- |
 | Name          | front_chaster |
@@ -231,10 +250,12 @@ we need two chaster to make the car balance. Add a sphere ling as `front_chaster
 | Position, z   | -0.06         |
 | Scale, Radius | 0.04          |
 
-![alt text](Modeling_frontchaster.png)
+![](Modeling_frontchaster.png)
 
 #### Add back chaster
+
 we need two chaster to make the car balance. Add a sphere ling as `back_chaster`, drag and put it under `base_link`.changing following parameters:
+
 | Feature         | Value            |
 | --------------- | ---------------- |
 | **Name**        | **back_chaster** |
@@ -243,55 +264,79 @@ we need two chaster to make the car balance. Add a sphere ling as `back_chaster`
 | Position, z     | -0.06            |
 | Scale, Radius   | 0.04             |
 
-![alt text](Modeling_backchest.png)
-
+![](Modeling_backchest.png)
 
 #### Save the project and sdf file
-Save the project file by clicking three bars on the up right and choose `Export`. Then `Save Project`.
-![alt text](Modeling_save.png)
+
+Save the project file by clicking three bars on the up right and choose `Export`. Then `Save Project`.  
 
 
-Creating a `.sdf` file under sdf folder in vscode, then paste all sdf content from the web app
-![alt text](Modeling_sdf.png)
-![alt text](Modeling_savesdf.png)
+![](Modeling_save.png)
 
+Creating a `.sdf` file under sdf folder in vscode, then paste all sdf content from the web app  
+
+
+![](Modeling_sdf.png)
+
+  
+
+
+![](Modeling_savesdf.png)
 
 #### Check the model
+
 You have finished the modeling! But before use the model, we will do a final check to avoid potential mistakes in the model.
 
-Export the model as `URDF` file, then use Chrome browser open the urdf check [website](https://gkjohnson.github.io/urdf-loaders/javascript/example/bundle/index.html). Drag and drop the URDF file into the page. You will see our model is loaded and two wheels are controllable.
-![alt text](Modeling_check.png)
+Export the model as `URDF` file, then use Chrome browser open the urdf check [website](https://gkjohnson.github.io/urdf-loaders/javascript/example/bundle/index.html). Drag and drop the URDF file into the page. You will see our model is loaded and two wheels are controllable.  
+
+
+![](Modeling_check.png)
 
 Congratulations! You build a differential car. We will modifying the car in the next section to fit the new Gazebo.
 
 ## Modifying
+
 ### Section overview
-In last section, we have created a differential car and generate `.sdf` file. Unfortunately, the `.sdf` file is generated to load in old version of Gazebo. In this section, we will modify the `.sdf` file to compatible with Gazebo Harmonic, the newest LTS version.
-![alt text](Modifying.jpg)
+
+In last section, we have created a differential car and generate `.sdf` file. Unfortunately, the `.sdf` file is generated to load in old version of Gazebo. In this section, we will modify the `.sdf` file to compatible with Gazebo Harmonic, the newest LTS version.  
+
+
+![](Modifying.jpg)
 
 ### Tools
+
 - VS code
 
 ### Steps
+
 We will add a `Diff control` plugin, modify the `joint state publisher` plugin and `sensor` in sdf file. The `Diff control` plugin allow us to control the car, `joint state publisher` auto publish the joint state from Gazebo, and `sensor` publish sensor date from Gazebo.
 
 #### Check the sdf file
-Check the .sdf file, we will find that some sensor tag are added to corresponding link, searching imu in the .sdf file we will find that a sensor named imu is added under imu link. Check other sensor tag in the file by yourself.
-![alt text](Modifying_check.png)
 
-We also find that at the end of .sdf file, there is a `joint_state_publisher` plugin, which will publish the joint state in Gazebo.
-![alt text](Modifying_jointstate.png)
+Check the .sdf file, we will find that some sensor tag are added to corresponding link, searching imu in the .sdf file we will find that a sensor named imu is added under imu link. Check other sensor tag in the file by yourself.  
 
-The automatically generated plugin was designed to work in Gazebo classic. The detailed explanation can be found in [official documents](https://gazebosim.org/docs/latest/migrating_gazebo_classic_ros2_packages/). You can also find some useful information about migration sensor plugin to Gazebo Harmonic. 
+
+![](Modifying_check.png)
+
+We also find that at the end of .sdf file, there is a `joint_state_publisher` plugin, which will publish the joint state in Gazebo.  
+
+
+![](Modifying_jointstate.png)
+
+The automatically generated plugin was designed to work in Gazebo classic. The detailed explanation can be found in [official documents](https://gazebosim.org/docs/latest/migrating_gazebo_classic_ros2_packages/). You can also find some useful information about migration sensor plugin to Gazebo Harmonic.
 
 #### Modify the pose
+
 At the beginning of .sdf file, we could find:
+
 ```xml
 <pose relative_to='world'>0 0 0 0 0 0</pose>
 ```
+
 Just delete it for compatibility.
 
 #### Modify the joint state publisher plugin
+
 Going to the end of `.sdf` file, changing the plugin code to the following to use in Gazebo Harmonic:
 
 ```xml
@@ -301,10 +346,13 @@ Going to the end of `.sdf` file, changing the plugin code to the following to us
     <joint_name>base_link_to_left_wheel</joint_name>
 </plugin>
 ```
+
 the `topic` tag assign the joint state publish topic and `joint_name` assign which joint information we will publish in Gazebo. Since other joints are fixed, we only need to publish the wheel joints. Make sure the joint name is identical to your `.sdf` file.
 
 #### Modify imu sensor
+
 Search `sensor` in .sdf file, find codes related to `imu`. We will find that in imu's sensor tag, there is a plugin named `imu_plugin_for_imu`, and file name `libgazebo_ros_imu_sensor.so` (you may have different plugin name, but the filename should be the same):
+
 ```xml
 <plugin name="imu_plugin_for_imu" filename="libgazebo_ros_imu_sensor.so">
     <ros>
@@ -312,14 +360,18 @@ Search `sensor` in .sdf file, find codes related to `imu`. We will find that in 
     </ros>
 </plugin>
 ```
+
 this plugin is used in Gazebo classic to publish imu date. We will handel the sensor date in a world plugin in Gazebo Harmonic. So:
+
 1. delete the imu `plugin` code here.
 2. Also add a `topic` tag under sensor tag to assign the gazebo imu topic:
+
 ```xml
 <topic>imu</topic>
 ```
 
 The final code related to imu sensor is (for simplicity we've omitted the content in imu tag):
+
 ```xml
       <sensor name="imu" type="imu">
         <always_on>true</always_on>
@@ -334,16 +386,19 @@ The final code related to imu sensor is (for simplicity we've omitted the conten
 ```
 
 #### Modify camera sensor
+
 Search `sensor` in .sdf file, find codes related to `camera`. We will find sensor tag related to camera and it's plugin.
 
 To make the robot more functional, we will use a depth camera. So:
-1. change the sensor type to `rgbd_camera`, 
+
+1. change the sensor type to `rgbd_camera`,
 2. add a `topic` tag under sensor to assign the camera date topic
 3. for the same reason, delete the `plugin` tag under sensor
 4. Add `gz_frame_id` under sensor for new Gazebo
 5. add `camera_info_topic` under camera tag for new Gazebo
 
 The final code related to camera sensor is:
+
 ```xml
 <sensor name="camera_camera" type="rgbd_camera">
     <always_on>true</always_on>
@@ -373,8 +428,10 @@ The final code related to camera sensor is:
 ```
 
 #### Modify lidar sensor
-Search `sensor` in .sdf file, find codes related to `lidar`. We will find sensor tag related to lidar and it's plugin.
+
+Search `sensor` in .sdf file, find codes related to `lidar`. We will find sensor tag related to lidar and it's plugin.  
 To use the lidar sensor in new Gazebo, change following:
+
 1. change sensor type to `gpu_lidar`
 2. add a `topic` tag under sensor
 3. delete the `plugin` tag under sensor
@@ -382,6 +439,7 @@ To use the lidar sensor in new Gazebo, change following:
 5. change `ray` tag to `lidar`
 
 The final code related to lidar sensor is:
+
 ```xml
 <sensor name="lidar_lidar" type="gpu_lidar">
     <always_on>true</always_on>
@@ -412,8 +470,11 @@ The final code related to lidar sensor is:
     </lidar>
 </sensor>
 ```
+
 #### Add Differential drive plugin
+
 We want to use a differential drive to control our car, to do this, add a differential drive plugin under inside `model` tag , alone side the joint state publisher plugin:
+
 ```xml
 <plugin filename="gz-sim-diff-drive-system" name="gz::sim::systems::DiffDrive">
     <left_joint>base_link_to_left_wheel</left_joint>
@@ -429,16 +490,18 @@ We want to use a differential drive to control our car, to do this, add a differ
     <tf_topic>/tf</tf_topic>
 </plugin>
 ```
+
 The plugin will run in gazebo to receive control command and publish odom information. Make all joints name, frames name and wheel parameters set here is identical to your car.
 
 Till now, we have completed our car model. Before we moving on, we will check the model again. We are going to load the model into the Rviz to do some final check.
 
 #### Check in Rviz
-1. Build a .py file in the `launch` folder, the file name could be `preview.launch.py`. 
+
+1. Build a .py file in the `launch` folder, the file name could be `preview.launch.py`.
 2. To store the Rviz config file in the future, we could also create a `config` folder along side launch folder.
 
-
 The `.launch.py` file should have following content:
+
 ```python
 import launch
 import launch_ros
@@ -470,6 +533,7 @@ def generate_launch_description():
     )
 
 ```
+
 We read the sdf file content and publish it.
 
 3. Edit the `CmakeLists.txt` file to install our sdf model and launch file, add this under find_package:
@@ -478,29 +542,42 @@ We read the sdf file content and publish it.
 install(DIRECTORY launch config sdf
   DESTINATION share/${PROJECT_NAME})
 ```
+
 4. compile the project using `colcon`. Open the terminal under project workspace:
 
 ```bash
 colcon build --symlink-install
 ```
+
 here we use symlink install for convince.
 
 5. source the bash and launch the Rviz:
+
 ```bash
 source install/setup.bash
 ros2 launch robot_description preview.launch.py
 ```
 
-You will find Rviz is launch and nothing appears. We need to manually add robot to the Rviz. Click Add at left bottom -> RobotModel 
-![](Modifying_preview.png)
-Then expand RobotModel, choose Description Source as Topic and set the Topic as robot_description.
-![alt text](Modifying_topic.png)
+You will find Rviz is launch and nothing appears. We need to manually add robot to the Rviz. Click Add at left bottom -> RobotModel  
 
-The robot still does not show correctly, since we choose wrong Fixed Frame. Select Fixed Frame as base_footprint, the robot should show with Error.
-![alt text](Modifying_rviz_error.png)
+
+![](Modifying_preview.png)
+
+  
+Then expand RobotModel, choose Description Source as Topic and set the Topic as robot_description.  
+
+
+![](Modifying_topic.png)
+
+The robot still does not show correctly, since we choose wrong Fixed Frame. Select Fixed Frame as base_footprint, the robot should show with Error.  
+
+
+![](Modifying_rviz_error.png)
+
+  
 Two wheel does not show correctly, it is ok since we do not publish any wheel information. We will fix it after launch Gazebo.
 
-It is tedious to set the Robot Model and choose Fixed Frame manually every time. Lucky, we have already set the rviz config file when launch. So save the current Rviz config to our config folder. 
+It is tedious to set the Robot Model and choose Fixed Frame manually every time. Lucky, we have already set the rviz config file when launch. So save the current Rviz config to our config folder.  
 Select `File` on up left, then `save Config As` choose the config folder and name as `rviz_config.rviz`. The file name should correspond to our launch file.
 
 Since we use symlink-install, we do not need compile again. Launch the launch file, then Robot model is loaded automatically.
@@ -508,49 +585,69 @@ Since we use symlink-install, we do not need compile again. Launch the launch fi
 We finally made it! the robot model all set. And we will load the robot into Gazebo.
 
 ## Config ros_gz_bridge
+
 ### Section overview
-![alt text](Config_ros_gz_bridge.jpg)
-Before loading and simulating the model in gazebo, we should add a bridge between ROS2 and Gazebo. We config all the plugin and sensor before to fit gazebo, and all the date is published in Gazebo, to read these sensor date in ROS2 we should transfer the date from Gazebo to ROS2. ros_gz_bride is designed to do thar for us. 
+
+![](Config_ros_gz_bridge.jpg)
+
+  
+Before loading and simulating the model in gazebo, we should add a bridge between ROS2 and Gazebo. We config all the plugin and sensor before to fit gazebo, and all the date is published in Gazebo, to read these sensor date in ROS2 we should transfer the date from Gazebo to ROS2. ros_gz_bride is designed to do thar for us.
 
 In this section we will setup simulation packages and setup bridge config file.
 
 ### Tools
+
 - VS code
 
 ### Steps
+
 #### Build simulation package
+
 1. Create a separate ros2 package for simulation. In the workspace, run:
+
 ```bash
 ros2 pkg create diff_sim --build-type ament_cmake --license Apache-2.0 --destination-directory src
 ```
-here we create a package named `diff_sim` in src folder.
-the workspace structure should look like:
-![alt text](config_structure.png)
+
+here we create a package named `diff_sim` in src folder.  
+the workspace structure should look like:  
+
+
+![](config_structure.png)
 
 under src folder, there is a `robot_description` folder that contain robot description file and a newly created `diff_sim` folder to run the simulation.
 
-2. Create `launch`, `config` and `worlds` folders under `diff_sim` folder for further use. 
+2. Create `launch`, `config` and `worlds` folders under `diff_sim` folder for further use.
 
 `launch` folder will store launch file, `config` folder will store all configuration file, `worlds` folder will store the world file in gazebo.
 
 3. Install these folder in `CMakeLise.txt` file, add:
+
 ```cmake
 install(DIRECTORY launch config worlds
   DESTINATION share/${PROJECT_NAME})
 ```
-your cmake file should looks like:
-![alt text](Config_cmake.png)
+
+your cmake file should looks like:  
+
+
+![](Config_cmake.png)
 
 4. Since we will use the robot description file in `robot_description` packages, add it in `package.xml` before `export` tag:
+
 ```xml
 <depend>robot_description</depend>
 ```
-your `package.xml` should looks like:
-![alt text](Config_package.png)
 
+your `package.xml` should looks like:  
+
+
+![](Config_package.png)
 
 #### Add bridge config file
+
 Creating a new file under `config` folder named `bridge_config.yaml`, paste to the file:
+
 ```yaml
 # gz topic published by the simulator core
 - ros_topic_name: "clock"
@@ -625,18 +722,26 @@ Creating a new file under `config` folder named `bridge_config.yaml`, paste to t
   direction: GZ_TO_ROS
 
 ```
+
 The file setup a series of bridge transfer between ROS and Gazebo.
 
 ## Load model into Gazebo and visualize in Rviz
+
 ### Section overview
-We have prepare all we need. In this section we will setup a lunch file to add the model into Gazebo and visualize it in Rviz
-![alt text](Load_model.jpg)
+
+We have prepare all we need. In this section we will setup a lunch file to add the model into Gazebo and visualize it in Rviz  
+
+
+![](Load_model.jpg)
 
 ### Tools
-- VS code 
+
+- VS code
 
 ### Steps
+
 #### Prepare the world file
+
 create an `empty.world` file under `worlds` folder, fill following content:
 
 ```xml
@@ -698,10 +803,13 @@ create an `empty.world` file under `worlds` folder, fill following content:
   </world>
 </sdf>
 ```
+
 The file create an empty world with some plugins, these plugins process various sensor information.
 
 #### Modify the wheel friction
+
 we want to left and right wheel to be rough, and chaster to be smooth. To modify the wheel friction find `left_wheel collision` tag, then add `surface` in it. The surface tag should be inside collision tag and alongside the geometry tag.
+
 ```xml
 <surface>
     <friction>
@@ -717,9 +825,11 @@ we want to left and right wheel to be rough, and chaster to be smooth. To modify
     </friction>
 </surface>
 ```
+
 Modify the `right_wheel collision` the same.
 
 Find `front_chaster collision` and `back_chaster collision`, add surface tag with following content:
+
 ```xml
 <surface>
     <friction>
@@ -735,10 +845,13 @@ Find `front_chaster collision` and `back_chaster collision`, add surface tag wit
     </friction>
 </surface>
 ```
+
 the friction of chaster wheel is set to zero.
 
 #### Write the launch file
+
 create a `sim.launch.py` file under launch folder, fill following content:
+
 ```python
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
@@ -847,36 +960,50 @@ def generate_launch_description():
 ```
 
 #### Launch and check the result.
+
 build the project:
+
 ```bash
 colcon build --symlink-install
 ```
+
 source and start the sim:
+
 ```bash
 source install/setup.bash
 ros2 launch diff_sim sim.launch.py
 ```
+
 If anything goes right, you should see the Gazebo and Rviz launched. Again, Rviz does not show anything, this time we will choose fixed frame as odom. Add robot model and Odometry. Then save the config file.
 
-![alt text](Load_model_Rvize_config.png)
-![alt text](Load_model_Gazebo.png)
+![](Load_model_Rvize_config.png)
+
+  
+
+
+![](Load_model_Gazebo.png)
 
 Congratulation! We have succeed launch the differential car in Gazebo and visualize it in Rviz!!!
 
-
 ## Control the car
+
 ### Section Overview
-![alt text](controlthecar.jpg)
+
+![](controlthecar.jpg)
 
 In this section, we will control our car and play with it.
 
 ### Tools
+
 - VS code
 - rqt
 
 ### Steps
+
 #### install the rqt plugin
+
 To better control the car, install all rqt plugin :
+
 ```bash
 sudo apt install ros-jazzy-rqt-*
 ```
@@ -884,57 +1011,94 @@ sudo apt install ros-jazzy-rqt-*
 launch the simulation and rqt.
 
 #### control the car using topic
+
 The diff car was controlled by the plugin we added in the .sdf file. The plugin received a `cmd_vel` signal translated by bridge. To control the car in gazebo, we need to send `cmd_vel` signal.
 
-In rqt, choose Plugins -> Topics -> Message Publisher, then choose `/cmd_vel` as topic, the rqt will automatically select the type:
-![alt text](Control_rqt.png)
+In rqt, choose Plugins -> Topics -> Message Publisher, then choose `/cmd_vel` as topic, the rqt will automatically select the type:  
+
+
+![](Control_rqt.png)
+
+  
 Click the "+" to add a topic, set linear -> x as 0.5, and check the /cmd_vel topic. rqt will publish the topics to control the car. Check the car in Gazebo and Rviz, they should moving. Then change the value of angular -> z as 0.3, the car should turning.
 
 Uncheck the /cmd_vel topic, to stop publish the topic, the car still moving, That's because the car will follow the last command to move.
 
 #### control the car using robot steering
-Choose Plugin -> Robot Tools -> robot steering. You will see the robot control panel. Change some value and see how car react to it.
-![alt text](Controling_robot_steering.png)
+
+Choose Plugin -> Robot Tools -> robot steering. You will see the robot control panel. Change some value and see how car react to it.  
+
+
+![](Controling_robot_steering.png)
 
 #### control the car using game pad
+
 We could also use game pad to control the robot, connect the game pad, then run:
+
 ```bash
 ros2 launch teleop_twist_joy teleop-launch.py joy_config:=xbox
 ```
+
 detailed config and usage can be found on official [homepage](https://index.ros.org/p/teleop_twist_joy/github-ros2-teleop_twist_joy/).
 
 #### visualize the camera image
+
 Remember that when modeling the robot, we add depth camera, lidar and imu sensor. We will visualize it now.
 
-In Rviz, Click Add -> by topic then choose image under depth_image
-![alt text](Controling_depth.png)
+In Rviz, Click Add -> by topic then choose image under depth_image  
+
+
+![](Controling_depth.png)
 
 You will see a image window and image topic add to Rviz, but the image seems does not show correctly. Expand Image topic then uncheck `Normalize Range`, the image will be come normal.
 
-Add some geometry in Gazebo, in front of the car camera, you will see the depth image in Rviz.
-![alt text](Controling_depth_cam.png)
-![alt text](Control_depth_rviz.png)
+Add some geometry in Gazebo, in front of the car camera, you will see the depth image in Rviz.  
 
-You could also add a normal image in Rviz
-![alt text](Controling_image.png)
+
+![](Controling_depth_cam.png)
+
+  
+
+
+![](Control_depth_rviz.png)
+
+You could also add a normal image in Rviz  
+
+
+![](Controling_image.png)
 
 #### visualize depth camera scan point
-Depth camera also has point cloud data. Click Add -> by topic -> PointCloud2
-![alt text](Vis_point.png)
 
-You will get:
-![alt text](Visual_point_res.png)
+Depth camera also has point cloud data. Click Add -> by topic -> PointCloud2  
+
+
+![](Vis_point.png)
+
+You will get:  
+
+
+![](Visual_point_res.png)
 
 #### visualize lidar scan
-Add more geometry around the car in Gazebo, the click three dots at up right. search `Visualize lidar`. 
-![alt text](Control_Lidar.png)
 
-Refresh the topic then the lidar ray will show in Gazebo.
-![alt text](Control_lidar_ray.png)
+Add more geometry around the car in Gazebo, the click three dots at up right. search `Visualize lidar`.  
 
-You could also see the lidar date in Rviz, after you add the `LaserScan` topic.
-![alt text](Control_rviz_lidar.png)
 
-#### visualize imu sensor signal 
-We could also plot the imu signal in rqt. Choose Plugins -> Visualization -> Plot. Then set the topic to be `/imu/angular_velocity/z` and set proper x range. Then change the car direction, you will see the velocity of z changed.
-![alt text](Controlling_imuz.png)
+![](Control_Lidar.png)
+
+Refresh the topic then the lidar ray will show in Gazebo.  
+
+
+![](Control_lidar_ray.png)
+
+You could also see the lidar date in Rviz, after you add the `LaserScan` topic.  
+
+
+![](Control_rviz_lidar.png)
+
+#### visualize imu sensor signal
+
+We could also plot the imu signal in rqt. Choose Plugins -> Visualization -> Plot. Then set the topic to be `/imu/angular_velocity/z` and set proper x range. Then change the car direction, you will see the velocity of z changed.  
+
+
+![](Controlling_imuz.png)

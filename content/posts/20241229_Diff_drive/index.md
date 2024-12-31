@@ -17,10 +17,10 @@ heroStyle: basic #basic, big, background, thumbAndBackground
 ---
 
 ## Introduction
+### Serial intro
+Differential car is a common structure in robot base. There are extended tutorial ranging from modeling to simulation using ROS2 and related tools. However, these tutorial mainly using Gazebo classic, an obsolete version of simulator. Though Gazebo has been updated to Ionic and introduced many new features, seldom tutorial introduce complete workflow from building a differential car model, adding control plugins, loading model to Gazebo, visualize model in Rviz and control the model by publishing commands OR using game pad.
 
-Differential car is a common structure in robot base. There are extended tutorial ranging from modeling to simulation using ROS2 and related tools. However, these tutorial mainly using Gazebo classic, an obsolete version of simulator. Though Gazebo has been updated to Ionic and introduced many new features, seldom tutorial introduce complete workflow from building a differential car model, adding control plugins, loading model to Gazebo, visualize model in Rviz and control the model by publishing topics OR using game pad.
-
-This tutorial introducing a complete workflow, allowing to simulate a differential car model in Gazebo Harmonic. No hardware is requested in this tutorial, but you can add hardware easily later. The tutorial introduced three control method and corresponding templates, the syllabus is shown below.
+This serial introducing a complete workflow, introducing how to simulate a differential car model in Gazebo Harmonic. No hardware is requested in this tutorial, but you can add hardware easily later. The serial's syllabus is shown below.
 
 ![](syllabus.jpg)
 
@@ -35,6 +35,9 @@ The software used are listed below:
 | Rviz         | 14.1.5-1noble.20241115.194822 |
 
 Source code could be found [here](https://github.com/JuuHuu/ROS_DiffCar_example)
+
+### About this tutorial
+In this tutorial, we will build a differential car model and using `diff drive system` plugin to control the car.
 ## Modeling
 
 ### Section overview
@@ -267,7 +270,7 @@ In last section, we have created a differential car and generate `.sdf` file. Un
 ![alt text](Modifying.jpg)
 
 ### Tools
-VS code
+- VS code
 
 ### Steps
 We will add a `Diff control` plugin, modify the `joint state publisher` plugin and `sensor` in sdf file. The `Diff control` plugin allow us to control the car, `joint state publisher` auto publish the joint state from Gazebo, and `sensor` publish sensor date from Gazebo.
@@ -512,7 +515,7 @@ Before loading and simulating the model in gazebo, we should add a bridge betwee
 In this section we will setup simulation packages and setup bridge config file.
 
 ### Tools
-vscode
+- VS code
 
 ### Steps
 #### Build simulation package
@@ -630,7 +633,7 @@ We have prepare all we need. In this section we will setup a lunch file to add t
 ![alt text](Load_model.jpg)
 
 ### Tools
-vs code 
+- VS code 
 
 ### Steps
 #### Prepare the world file
@@ -868,8 +871,8 @@ Congratulation! We have succeed launch the differential car in Gazebo and visual
 In this section, we will control our car and play with it.
 
 ### Tools
-vs code
-rqt
+- VS code
+- rqt
 
 ### Steps
 #### install the rqt plugin
@@ -914,6 +917,13 @@ Add some geometry in Gazebo, in front of the car camera, you will see the depth 
 
 You could also add a normal image in Rviz
 ![alt text](Controling_image.png)
+
+#### visualize depth camera scan point
+Depth camera also has point cloud data. Click Add -> by topic -> PointCloud2
+![alt text](Vis_point.png)
+
+You will get:
+![alt text](Visual_point_res.png)
 
 #### visualize lidar scan
 Add more geometry around the car in Gazebo, the click three dots at up right. search `Visualize lidar`. 

@@ -127,8 +127,8 @@ diffbot_base_controller:
     linear.x.max_velocity: 1.0
     linear.x.min_velocity: -1.0
     linear.x.max_acceleration: 1.0
-    linear.x.max_jerk: 0.0
-    linear.x.min_jerk: 0.0
+    linear.x.max_jerk: .NAN
+    linear.x.min_jerk: .NAN
 
     angular.z.has_velocity_limits: true
     angular.z.has_acceleration_limits: true
@@ -136,8 +136,8 @@ diffbot_base_controller:
     angular.z.min_velocity: -1.0
     angular.z.max_acceleration: 1.0
     angular.z.min_acceleration: -1.0
-    angular.z.max_jerk: 0.0
-    angular.z.min_jerk: 0.0
+    angular.z.max_jerk: .NAN
+    angular.z.min_jerk: .NAN
 
 ```
 We have a `controller manager`and a `diffbot_base_controller`. The `controller manager` config the parameters of controller manager, and load the `joint_state_publisher controller`; `diffbot_base_controller` config the differential controller. Detailed parameter explanation can be found [here](https://control.ros.org/jazzy/doc/ros2_controllers/diff_drive_controller/doc/userdoc.html).
